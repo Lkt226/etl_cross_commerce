@@ -1,5 +1,15 @@
 defmodule EtlCrossCommerce.Extract.ApiConsume do
+  @moduledoc """
+    The function of this module is, consume pages in API Rest:
+      'http://challenge.dienekes.com.br/api/numbers?page={page}
+  """
 
+  @doc """
+    get_one_page/1 ->           |   call ->   get_one_page(1)
+      get_one_page_private/2    |   return -> {"numbers":[0.10180, 0.0011918, 0.8601891]}
+      decode_json/1             |   return -> [0.10180, 0.0011918, 0.8601891]
+  """
+  # fetch whatever page in API Rest, but only one.
   def get_one_page(page) do
     get_one_page_private(page)
     |> decode_json()
@@ -20,13 +30,20 @@ defmodule EtlCrossCommerce.Extract.ApiConsume do
     end
   end
 
-  # All pages
+  @doc """
+    get_all_pages/0 ->          |   call ->   get_one_page()
+      get_one_page_private/1    |   return -> {"numbers":[0.10180, 0.0011918, 0.8601891]}
+      decode_json/1             |   return -> [0.10180, 0.0011918, 0.8601891]
+      get_all_pages/2           |   return -> [0.10180, 0.0011918, 0.8601891, 0.5119188, 0.1179621, ...]
+  """
+  # fetch alls page in API Rest.
   def get_all_pages do
       get_one_page_private(1)
       |> decode_json()
       |> get_all_pages(2)
   end
 
+  # repeat get_one_page_private/1 in all pages from API Rest
   defp get_all_pages(list, current_page) do
     page = get_one_page_private(current_page)
     decode = decode_json(page)
@@ -38,18 +55,13 @@ defmodule EtlCrossCommerce.Extract.ApiConsume do
     end
   end
 
-  #Support Defs
+  # decode Json in one list
   defp decode_json(json), do: if %{"numbers" => content} = Poison.decode!(json), do: content
-  defp concat_list(item, list), do: Enum.concat(list, item)
 
-  #Error Tratament
-  defp handle_error(code, message) do
-    IO.write("#{code}: #{message} \n")
-  end
-
-  defp handle_error(code, message, fun) do
+  # print in console, the error and execute one action.
+  defp handle_error(code, message, action) do
     IO.write("#{code}: #{message} \n")
     Process.sleep(5)
-    fun
+    action
   end
 end
