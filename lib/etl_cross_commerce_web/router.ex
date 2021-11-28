@@ -10,6 +10,7 @@ defmodule EtlCrossCommerceWeb.Router do
 
     get "/", HomeController, :index
     get "/create", HomeController, :create
+    get "/read", HomeController, :read
   end
 
   # Enables LiveDashboard only for development

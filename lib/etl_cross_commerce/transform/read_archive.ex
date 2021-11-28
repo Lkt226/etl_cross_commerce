@@ -14,17 +14,19 @@ defmodule EtlCrossCommerce.Transform.ReadArchive do
   """
   # read one archive and transform he in one list based in custom pattern
   def read_list(path, patt) do
-    {:ok, list } = File.read(path)
-
-    list
+    File.read(path)
+    |> handle_response()
     |> String.split(patt)
   end
 
   # read one archive and transform he in one list based in "\n" pattern
   def read_list(path) do
-    {:ok, list } = File.read(path)
-
-    list
+    File.read(path)
+    |> handle_response()
     |> String.split("\n")
   end
+
+  defp handle_response({:ok, list}), do: list
+  defp handle_response({:error, error}), do: IO.write(error)
+
 end
