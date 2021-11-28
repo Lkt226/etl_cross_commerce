@@ -15,13 +15,26 @@ defmodule EtlCrossCommerce.Extract.CreateArchiveTest do
       assert response == expected_response
     end
 
-    test "Try write one archive based in one list, but i passed one tuple, return UndefinedError" do
+    test "Try write one archive based in one list, but i not passed list" do
       list = 1
-      path = "test/archives/test-create_archive-2.txt"
+      path = "test/archives/v1/test-create_archive-1.txt"
 
-      assert_raise(Protocol.UndefinedError, fn ->
-        CreateArchive.write_list(list, path)
-      end)
+      response = CreateArchive.write_list(list, path)
+
+      expected_response = "error: the list is invalid"
+
+      assert response == expected_response
+    end
+
+    test "Try write one archive based in one list, but folder not exist" do
+      list = [1, 2, 3, 4, 5]
+      path = "test/archives/v1/test-create_archive-1.txt"
+
+      response = CreateArchive.write_list(list, path)
+
+      expected_response = "error: the path is invalid"
+
+      assert response == expected_response
     end
   end
 end

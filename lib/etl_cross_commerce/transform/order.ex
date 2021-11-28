@@ -17,6 +17,9 @@ defmodule EtlCrossCommerce.Transform.Order do
   # 5. revert max list and join min and max lists
   defp min_and_max(old_list, min, max) do
     cond do
+      is_list(old_list) == false ->
+        "error: the list is invalid"
+
       Enum.count(old_list) > 1 ->
       item_min = Enum.min(old_list)
       item_max = Enum.max(old_list)

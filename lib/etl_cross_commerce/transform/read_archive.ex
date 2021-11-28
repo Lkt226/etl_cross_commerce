@@ -15,18 +15,17 @@ defmodule EtlCrossCommerce.Transform.ReadArchive do
   # read one archive and transform he in one list based in custom pattern
   def read_list(path, patt) do
     File.read(path)
-    |> handle_response()
-    |> String.split(patt)
+    |> handle_response(patt)
   end
 
   # read one archive and transform he in one list based in "\n" pattern
   def read_list(path) do
     File.read(path)
-    |> handle_response()
-    |> String.split("\n")
+    |> handle_response("\n")
   end
 
-  defp handle_response({:ok, list}), do: list
-  defp handle_response({:error, error}), do: IO.write(error)
+  defp handle_response({:ok, response}, patt), do: String.split(response, patt)
+
+  defp handle_response({:error, _},_), do: "error: the list not exist"
 
 end

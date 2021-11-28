@@ -24,6 +24,16 @@ defmodule EtlCrossCommerce.Transform.ReadArchiveTest do
       assert response == expected_response
     end
 
+    test "Try read one archive, but not exist" do
+      path = "test/archives/v1/test-read_archive.txt"
+
+      response = ReadArchive.read_list(path)
+
+      expected_response = "error: the archive not exist"
+
+      assert response == expected_response
+    end
+
   end
 
 end

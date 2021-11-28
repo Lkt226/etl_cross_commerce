@@ -31,6 +31,15 @@ defmodule EtlCrossCommerce.Main do
   def load(path, page) do
     path
     |> ReadArchive.read_list()
-    |> Paginate.call(200, page)
+    |> handle_load(page)
+  end
+
+  #handle load, to resolver one error
+  defp handle_load(list, page) do
+    if is_list(list) == true do
+      Paginate.call(list ,200, page)
+    else
+      list
+    end
   end
 end

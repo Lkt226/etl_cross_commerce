@@ -14,12 +14,15 @@ defmodule EtlCrossCommerce.Transform.OrderTest do
       assert response == expected_response
     end
 
+
     test "if pass one tuple and not list, return error" do
       old_list = {5,3,2,4,1}
 
-      assert_raise(Protocol.UndefinedError, fn  ->
-        Order.order(old_list)
-      end)
+      response = Order.order(old_list)
+
+      expected_response = "error: the list is invalid"
+
+      assert response == expected_response
     end
   end
 end

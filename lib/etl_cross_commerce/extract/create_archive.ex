@@ -21,12 +21,23 @@ defmodule EtlCrossCommerce.Extract.CreateArchive do
   """
 
   def write_list(list, path) do
-    if Enum.count(list) > 0 do
-      list = Enum.join(list,"\n")
-      File.write(path, list)
-    else
-      {:error, "the list is empty"}
+    cond do
+      is_list(list) == false ->
+        "error: the list is invalid"
+
+      Enum.empty?(list) == true ->
+        {:error, "the list is empty"}
+
+      true == true ->
+        list = Enum.join(list,"\n")
+        File.write(path, list)
+        |> handle_response()
+
     end
+
   end
+
+  defp handle_response(:ok), do: :ok
+  defp handle_response({:error, :enoent}), do: "error: the path is invalid"
 
 end
