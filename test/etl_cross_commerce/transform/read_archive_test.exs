@@ -29,7 +29,7 @@ defmodule EtlCrossCommerce.Transform.ReadArchiveTest do
 
       response = ReadArchive.read_list(path)
 
-      expected_response = "error: the archive not exist"
+      expected_response = "error: the list not exist"
 
       assert response == expected_response
     end

@@ -21,17 +21,15 @@ defmodule EtlCrossCommerce.Transform.Order do
         "error: the list is invalid"
 
       Enum.count(old_list) > 1 ->
-      item_min = Enum.min(old_list)
-      item_max = Enum.max(old_list)
+        {item_min, item_max} = Enum.min_max(old_list)
 
-      min = add_item_in_list(item_min, min)
-      max = add_item_in_list(item_max, max)
+        {min, max} = add_item_in_list(item_min, item_max, min, max)
 
-      old_list = delete_item_in_list(item_min, old_list)
-      old_list = delete_item_in_list(item_max, old_list)
+        old_list = delete_item_in_list(item_min, old_list)
+        old_list = delete_item_in_list(item_max, old_list)
 
-      IO.write("#{Enum.count(old_list)}\n")
-      min_and_max(old_list, min, max)
+        IO.write("#{Enum.count(old_list)}\n")
+        min_and_max(old_list, min, max)
 
       Enum.count(old_list) == 1 ->
         item_min = Enum.min(old_list)
@@ -50,7 +48,10 @@ defmodule EtlCrossCommerce.Transform.Order do
 
   # delete one item in whatever list
   defp delete_item_in_list(item, list), do: list -- [item]
+
   # add one item in whatever list
   defp add_item_in_list(item, list), do: list ++ [item]
+  # add itens in min and max lists
+  defp add_item_in_list(item_min, item_max, min, max), do: {min ++ [item_min], max ++ [item_max]}
 
 end

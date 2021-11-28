@@ -75,7 +75,7 @@ defmodule EtlCrossCommerceWeb.HomeController do
     |> simplify_json(conn)
   end
 
-  def list(conn, params) do
+  def list(conn, _) do
     File.ls!("lists/created")
     |> simplify_json(conn)
   end
