@@ -73,7 +73,11 @@ defmodule EtlCrossCommerceWeb.HomeController do
 
     Main.load(path, 1)
     |> simplify_json(conn)
+  end
 
+  def list(conn, params) do
+    File.ls!("lists/created")
+    |> simplify_json(conn)
   end
 
   # Invert conn and JSON content

@@ -14,6 +14,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 1. "http://localhost:4000/api/v1?page={integer}" for get result, initial page is 1
 2. "http://localhost:4000/api/v1/create?path={string}&page={integer}" for get one page in oficcial API and order.
 3. "http://localhost:4000/api/v1/read?path={string}" for read the created list.
+4. "http://localhost:4000/api/v1/list" for view all, all archives created.
 
 ## This project is a challenger.
 ### 1. Extract
